@@ -152,7 +152,8 @@ git add img/*.png                # 添加 img 目录下所有 .png 文件
 
 ### <mark>1.4.1. 跨平台换行符规范配置【`git conig`】</mark>
 
-1. 核心设置策略
+**1. 核心设置策略**
+
 ```bash
 # Windows开发者必须执行（PowerShell）
 git config --global core.autocrlf true     # 提交转LF，检出转CRLF
@@ -163,6 +164,24 @@ git config --global core.autocrlf input   # 提交转LF，检出不转换
 git config --global core.eol lf           # 强制使用LF换行符
 ```
 
+| ![](img/微信截图_20250411155201.png) |
+|:--------------------------------:|
+
+**2. 历史换行符修复（强制统一）**
+
+```bash
+# 清理本地缓存并重置（所有开发者必须执行）
+git rm -r --cached .
+git reset --hard
+
+# 重写历史记录（项目管理员执行）
+git filter-branch --tree-filter 'dos2unix -q **/*' HEAD  # 递归转换所有文件
+
+# 提交修复
+git add .
+git commit -m "chore: enforce LF line endings"
+git push --force  # 强制覆盖远程历史
+```
 
 **重置暂存区并修复规则**
 
@@ -308,6 +327,56 @@ git remote -v # 应显示fetch/push地址
 git push -u origin main
 ```
 
+(1) **push**
+
+- 含义：将**本地仓库**的代码变更**推送**（**上传**）到**远程仓库**。
+- 关键行为：
+    - 将本地分支的提交记录、文件变动同步到远程仓库。
+    - 若远程仓库无对应分支，则自动创建同名分支。
+
+(2) **-u**
+
+- 全称：--set-upstream。
+- 含义：建立本地分支与远程分支的追踪关系。
+- 作用：
+    - **首次推送时绑定本地 main 分支与远程 origin/main 分支。**
+    - 后续可直接使用 git push 或 git pull，无需重复指定分支名和仓库名。
+
+(3) origin
+
+- 含义：**远程仓库**的**默认别**名，指向代码托管的 URL（如 GitHub 仓库地址）。
+- 来源：
+    - 克隆仓库时自动生成（如 git clone 后默认命名为 origin）。
+    - 可通过 git remote add 手动添加其他别名（如 upstream）。
+
+(4) main
+
+- 含义：Git 的**默认主分支名称**（替代旧版 master）。
+- 作用：
+  - 存储稳定、可部署的代码版本。
+  - 推送时若远程无 main 分支，则自动创建；若已存在，则合并变更。
+
+**完整命令行为总结**
+
+**1.首次推送分支：**
+
+```bash
+git push -u origin main
+```
+- 将本地 main 分支的代码推送到远程仓库 origin。
+- 建立本地 main 分支与远程 origin/main 分支的追踪关系。
+- 后续可简化为 `git push`，自动关联已绑定的 origin/main。
+
+**2. 后续同步：**
+```bash
+git push # 自动关联已绑定的 origin/main
+```
+
+**注意事项**
+- **权限问题**：需有远程仓库的写入权限，否则推送失败。
+- **冲突处理**：若远程分支有他人提交，需先执行 git pull --rebase 解决冲突再推送。
+- **强制推送**：谨慎使用 git push -f，可能覆盖他人代码。
+
 | ![](img/微信截图_20250411150734.png) |
 |:--------------------------------:|
 | ![](img/微信截图_20250411150941.png) |
@@ -319,9 +388,82 @@ git push -u origin main
 ssh -T git@github.com
 ```
 
-![](img/微信截图_20250411151429.png)
+| ![](img/微信截图_20250411151429.png) |
+|:--------------------------------:|
 
-## 1. Github 上 Python项目多人协作维护指南
+### <mark>1.11. 我在.gitignore中添加了.idea/，不过为什么，.idea/还是上传到github上了</mark>
+
+可能是因为 .idea/ 文件夹已经被 Git 添加到暂存区或版本控制中。在这种情况下，修改 .gitignore 不会影响已经被跟踪的文件。
+
+要解决此问题，请按照以下步骤操作：
+
+**1. 停止跟踪 .idea/ 文件夹：**
+
+使用以下命令从 Git 中移除 .idea/ 文件夹（不会删除本地文件）：
+
+```bash
+git rm -r --cached .idea/
+```
+
+**2. 提交更改：**
+
+将更改提交到 Git：
+
+```bash
+git commit -m "Remove .idea/ folder from tracking"
+```
+
+**3. 推送更改到远程仓库：**
+
+推送更改到 GitHub：
+
+```bash
+git push
+```
+
+| ![](img/微信截图_20250411163719.png) |
+|:--------------------------------:|
+
+## 2. GitHub Python 项目多人协作维护指南（跨平台适配）
+
+### <mark>2.1. 统一换行符规范</mark>
+
+| 配置命令                                      | 适用系统      | 提交时行为       | 检出时行为       | 仓库存储格式 |
+|-------------------------------------------|-----------|-------------|-------------|--------|
+| `git config --global core.autocrlf true`  | Windows   | `CRLF → LF` | `LF → CRLF` | LF     |
+| `git config --global core.autocrlf input` | Linux/Mac | `CRLF → LF` | `不转换`       | LF     |
+
+**关键差异点**
+
+1. **Windows 系统（`true`）**
+    - **本地开发**：文件使用 `CRLF`（符合 Windows 习惯）
+    - **提交到仓库**：自动转换为 `LF`
+    - **从仓库拉取**：自动转换回 `CRLF`
+    - **意义**：避免开发者看到换行符差异，同时保证仓库统一。
+
+2. **Linux/Mac 系统（`input`）**
+    - **本地开发**：文件保持 `LF`（符合 Unix 习惯）
+    - **提交到仓库**若误存 `CRLF` 文件，强制转为 `LF`
+    - **从仓库拉取**：保持 `LF` 不变
+    - **意义**：杜绝 `CRLF` 污染仓库，保持开发环境原生兼容性。
+
+### <mark>2.2. 开发前同步最新代码</mark>
+
+```bash
+# 开发前同步最新代码
+git pull origin main --rebase
+```
+
+### <mark>2.3. Windows上可视化Git客户端（TortoiseGit）</mark>
+
+通过可视化查看Git历史记录、分支、标签等信息，简化操作流程。
+
+https://tortoisegit.org/download/
+
+| ![](img/微信截图_20250411162044.png) |
+|:--------------------------------:|
+|   ![](img/git_history_01.png)    |
+| ![](img/微信截图_20250411164228.png) |
 
 ## 3. Git 操作指令
 
