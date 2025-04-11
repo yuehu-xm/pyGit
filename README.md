@@ -5,12 +5,12 @@
 ```markdown
 1. Windows 11 下的 Git 使用案例
    1.1. 配置Git全局用户信息（关联本地账号）【git config】
-   1.2. 排除无关文件【`.gitignore`】
-   1.3. 初始化仓库【`git init`】
-   1.4. 暂存区添加内容【`git add`】
-   1.4.1. 跨平台换行符规范配置【`git conig`】
-   1.5. 掌握仓库状态检查工具【`git status`】
-   1.6. 提交暂存区内容【`git commit`】
+   1.2. 排除无关文件【.gitignore】
+   1.3. 初始化仓库【git init】
+   1.4. 暂存区添加内容【git add】
+   1.4.1. 跨平台换行符规范配置【git config】
+   1.5. 掌握仓库状态检查工具【git status】
+   1.6. 提交暂存区内容【git commit】
    1.7. 生成SSH密钥（用于安全通信）
    1.8. 添加公钥到GitHub
    1.9. 关联远程仓库
@@ -44,7 +44,7 @@ git config --global user.email "yuehu.xm@gmail.com"
 | ![](img/微信截图_20250411103552.png) |
 | ![](img/微信截图_20250411103630.png) |
 
-### <mark>1.2. 排除无关文件【`.gitignore`】</mark>
+### <mark>1.2. 排除无关文件【.gitignore】</mark>
 
 方式 1：用 PyCharm 右键项目 → New → File → 输入 .gitignore
 
@@ -95,7 +95,7 @@ Desktop.ini
 *.code-workspace
 ```
 
-### <mark>1.3. 初始化仓库【`git init`】</mark>
+### <mark>1.3. 初始化仓库【git init】</mark>
 
 ```bash
 git init          # 初始化仓库
@@ -120,7 +120,7 @@ git init          # 初始化仓库
 
    文件已被 Git 跟踪，但修改后未通过 git add 添加到暂存区。
 
-### <mark>1.4. 暂存区添加内容【`git add`】</mark>
+### <mark>1.4. 暂存区添加内容【git add】</mark>
 
 **（1）添加所有文件（包含子目录）**
 
@@ -173,7 +173,7 @@ git add img/*.png                # 添加 img 目录下所有 .png 文件
 
 当 Git 检测到文件在 Windows 中被编辑（使用 CRLF），但仓库默认使用 LF 时，会触发自动转换并生成此警告。
 
-### <mark>1.4.1. 跨平台换行符规范配置【`git conig`】</mark>
+### <mark>1.4.1. 跨平台换行符规范配置【git conig】</mark>
 
 **1. 核心设置策略**
 
@@ -229,7 +229,7 @@ git add .             # 重新添加文件（此时忽略规则生效）
 git commit -m "fix: 彻底忽略 .idea/ 目录"
 ```
 
-### <mark>1.5. 掌握仓库状态检查工具【`git status`】</mark>
+### <mark>1.5. 掌握仓库状态检查工具【git status】</mark>
 
 ```bash
 git status  # 显示工作区与暂存区状态
@@ -253,7 +253,7 @@ git status --ignored
 - 列出所有被 .gitignore 规则排除的文件。
 - 验证忽略规则是否生效，避免意外文件泄露。
 
-### <mark>1.6. 提交暂存区内容【`git commit`】</mark>
+### <mark>1.6. 提交暂存区内容【git commit】</mark>
 
 ```bash
 git commit -m "第一次提交"
