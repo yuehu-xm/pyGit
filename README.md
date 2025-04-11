@@ -1,5 +1,28 @@
 # Git 操作记录
 
+目录
+
+```markdown
+1. Windows 11 下的 Git 使用案例
+   1.1. 配置Git全局用户信息（关联本地账号）【git config】
+   1.2. 排除无关文件【`.gitignore`】
+   1.3. 初始化仓库【`git init`】
+   1.4. 暂存区添加内容【`git add`】
+   1.4.1. 跨平台换行符规范配置【`git conig`】
+   1.5. 掌握仓库状态检查工具【`git status`】
+   1.6. 提交暂存区内容【`git commit`】
+   1.7. 生成SSH密钥（用于安全通信）
+   1.8. 添加公钥到GitHub
+   1.9. 关联远程仓库
+   1.10. 推送远程仓库【Git push】
+   1.11. 我在.gitignore中添加了.idea/，不过为什么，.idea/还是上传到github上了
+2. GitHub Python 项目多人协作维护指南（跨平台适配）
+    2.1. 统一换行符规范
+    2.2. 开发前同步最新代码
+    2.3. Windows上可视化Git客户端（TortoiseGit）
+3. Git 操作指令
+```
+
 ## 1. Windows 11 下的 Git 使用案例
 
 ### <mark>1.1. 配置Git全局用户信息（关联本地账号）【git config】</mark>
