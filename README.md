@@ -271,8 +271,8 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 **1. 路径选择**
 
 - 当提示 `Enter file in which to save the key` 时：
-    - 默认路径：直接回车，使用 C:\Users\YourUsername\.ssh\id_rsa（适用于单账号场景）
-    - 自定义路径：输入如 E:\Workspace\my_project_rsa（适用于多项目隔离场景），若路径含空格需加引号（如 "D:\My
+    - 默认路径：直接回车，使用 `C:\Users\YourUsername\.ssh\id_rsa`（适用于单账号场景）
+    - 自定义路径：输入如 `E:\Workspace\my_project_rsa`（适用于多项目隔离场景），若路径含空格需加引号（如 "D:\My
       Projects\.ssh\key"）
 
 **2. 密码设置**
@@ -283,8 +283,8 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
 3.1. 打开.ssh目录
 
-- 在地址栏输入：%USERPROFILE%\.ssh（自动跳转当前用户目录）
-- 或手动导航至：C:\Users\[你的用户名]\.ssh
+- 在地址栏输入：`%USERPROFILE%\.ssh`（自动跳转当前用户目录）
+- 或手动导航至：`C:\Users\[你的用户名]\.ssh`
 
 3.2. 显示隐藏文件
 
@@ -294,8 +294,8 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 3.3. 检查文件列表
 
 - 确认存在以下两个文件：
-    - id_rsa（私钥，图标为无关联程序）
-    - id_rsa.pub（公钥，可用记事本打开）
+    - `id_rsa`（私钥，图标为无关联程序）
+    - `id_rsa.pub`（公钥，可用记事本打开）
 
 | ![](img/微信截图_20250411143438.png) |
 |:--------------------------------:|
